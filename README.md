@@ -34,6 +34,7 @@ http://localhost:3000/api/v2/seed
 
 ### 📦 Seed de Pokémon
 
+- **Endpoint**: `GET /api/v2/seed`
 - **Descripción**: Limpia la base de datos y la puebla con 650 Pokémon obtenidos de la PokéAPI
 - **Funcionalidades**:
   - Elimina todos los Pokémon existentes antes de la inserción
@@ -46,10 +47,74 @@ http://localhost:3000/api/v2/seed
 - **Endpoint base**: `/api/v2/pokemon`
 - **Funcionalidades**:
   - ✅ **CREATE**: `POST /api/v2/pokemon` - Crear nuevo Pokémon
-  - 🔄 **READ**: `GET /api/v2/pokemon` - Listar todos los Pokémon (pendiente)
-  - 🔄 **READ**: `GET /api/v2/pokemon/:id` - Obtener Pokémon por ID (pendiente)
-  - 🔄 **UPDATE**: `PATCH /api/v2/pokemon/:id` - Actualizar Pokémon (pendiente)
-  - 🔄 **DELETE**: `DELETE /api/v2/pokemon/:id` - Eliminar Pokémon (pendiente)
+  - ✅ **READ**: `GET /api/v2/pokemon` - Listar todos los Pokémon con paginación
+  - ✅ **READ**: `GET /api/v2/pokemon/:term` - Obtener Pokémon por ID, nombre o número
+  - ✅ **UPDATE**: `PATCH /api/v2/pokemon/:term` - Actualizar Pokémon
+  - ✅ **DELETE**: `DELETE /api/v2/pokemon/:id` - Eliminar Pokémon
+
+#### Características avanzadas:
+
+- **Búsqueda flexible**: Buscar por ID de MongoDB, número de Pokédex o nombre
+- **Paginación**: Parámetros `limit` y `offset` para controlar resultados
+- **Ordenamiento**: Resultados ordenados por número de Pokédex
+- **Validación**: Pipes personalizados para validar IDs de MongoDB
+- **Manejo de errores**: Respuestas HTTP apropiadas para cada caso
+
+## Ejemplos de uso de la API
+
+### Poblar la base de datos
+
+```bash
+GET http://localhost:3000/api/v2/seed
+```
+
+### Obtener todos los Pokémon (con paginación)
+
+```bash
+GET http://localhost:3000/api/v2/pokemon?limit=20&offset=0
+```
+
+### Buscar un Pokémon específico
+
+```bash
+# Por número de Pokédex
+GET http://localhost:3000/api/v2/pokemon/1
+
+# Por nombre
+GET http://localhost:3000/api/v2/pokemon/bulbasaur
+
+# Por ID de MongoDB
+GET http://localhost:3000/api/v2/pokemon/507f1f77bcf86cd799439011
+```
+
+### Crear un nuevo Pokémon
+
+```bash
+POST http://localhost:3000/api/v2/pokemon
+Content-Type: application/json
+
+{
+  "no": 1001,
+  "name": "MiPokemon"
+}
+```
+
+### Actualizar un Pokémon
+
+```bash
+PATCH http://localhost:3000/api/v2/pokemon/bulbasaur
+Content-Type: application/json
+
+{
+  "name": "NuevoNombre"
+}
+```
+
+### Eliminar un Pokémon
+
+```bash
+DELETE http://localhost:3000/api/v2/pokemon/507f1f77bcf86cd799439011
+```
 
 ### 🏗️ Arquitectura Modular
 
