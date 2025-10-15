@@ -4,9 +4,12 @@ import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { AxiosAdapter } from 'src/common/adapters/axios.adapter';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class SeedService {
+  private readonly logger = new Logger(SeedService.name);
+
   constructor(
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
@@ -28,6 +31,11 @@ export class SeedService {
     });
     await this.pokemonModel.insertMany(pokemonToInsert);
     // insert into pokemons (name,no) values (bulbasaur,1), (ivysaur,2), ...
+
+    // logger monitoring
+    this.logger.log('Starting seed process...');
+    this.logger.log(`Inserted ${pokemonToInsert.length} pokemon`);
+
     return 'Seed executed';
   }
 }
